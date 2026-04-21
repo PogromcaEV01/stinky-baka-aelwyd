@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Aelwyd.space - Ognisko na krańcu wszechświata</title>
+<title id="page-title">Aelwyd.space - Ognisko na krańcu wszechświata</title>
 <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
@@ -142,97 +142,289 @@
 <body>
 
 <h1>Aelwyd.space</h1>
-<p class="lore-text">"Wędrowcze, siądź przy ogniu. W bezmiarze kosmosu tylko to ognisko daje ciepło.<br>Jednak by przetrwać, musimy sprawdzić Twoje intencje w Próbie Kielichów..."</p>
+<p class="lore-text" data-i18n="lore_text">"Wędrowcze, siądź przy ogniu. W bezmiarze kosmosu tylko to ognisko daje ciepło.<br>Jednak by przetrwać, musimy sprawdzić Twoje intencje w Próbie Kielichów..."</p>
 
-<div id="status">[ OGNISKO WYGASZONE ]</div>
+<div id="status" data-i18n="status_extinguished">[ OGNISKO WYGASZONE ]</div>
 
 <div id="server-status" class="alert" style="border-left-color: #ffaa00;">
-    Stan Iskry: <span style="color:#ffcc66;">ROZPALANIE OGNISKA (nasłuchiwanie serwera, do 60s)...</span><span class="loading-dots"></span>
+    <span data-i18n="server_spark">Stan Iskry:</span> <span id="server-msg" style="color:#ffcc66;" data-i18n="server_loading">ROZPALANIE OGNISKA (nasłuchiwanie serwera, do 60s)...</span><span class="loading-dots" id="server-dots"></span>
 </div>
 
 <div id="lobby-panel" class="panel">
     <div id="disconnect-msg" class="alert error hidden"></div>
 
-    <h3>Otwarty Kosmos (Dobieranie)</h3>
-    <p>Wypatruj statków na horyzoncie. System dobierze Ci przeciwnika.</p>
-    <button class="rank-btn" onclick="searchRank(1)"><span>[ ISKRA ]</span> Zagubieni wędrowcy i nowicjusze</button>
-    <button class="rank-btn" onclick="searchRank(2)"><span>[ PŁOMIEŃ ]</span> Poszukiwacze prawdy</button>
-    <button class="rank-btn" onclick="searchRank(3)"><span>[ OGNISKO ]</span> Strażnicy tajemnic</button>
-    <button class="rank-btn" onclick="searchRank(4)"><span>[ GWIAZDA ]</span> Bezwzględni mistrzowie Próby</button>
+    <h3 data-i18n="lobby_h3_1">Otwarty Kosmos (Dobieranie)</h3>
+    <p data-i18n="lobby_p_1">Wypatruj statków na horyzoncie. System dobierze Ci przeciwnika.</p>
+    <button class="rank-btn" onclick="searchRank(1)"><span data-i18n="rank_1_badge">[ ISKRA ]</span> <text data-i18n="rank_1_desc">Zagubieni wędrowcy i nowicjusze</text></button>
+    <button class="rank-btn" onclick="searchRank(2)"><span data-i18n="rank_2_badge">[ PŁOMIEŃ ]</span> <text data-i18n="rank_2_desc">Poszukiwacze prawdy</text></button>
+    <button class="rank-btn" onclick="searchRank(3)"><span data-i18n="rank_3_badge">[ OGNISKO ]</span> <text data-i18n="rank_3_desc">Strażnicy tajemnic</text></button>
+    <button class="rank-btn" onclick="searchRank(4)"><span data-i18n="rank_4_badge">[ GWIAZDA ]</span> <text data-i18n="rank_4_desc">Bezwzględni mistrzowie Próby</text></button>
 
     <div id="queue-status" class="alert hidden" style="color:#ffaa00; margin-top:10px; text-align: center;">
-        <span id="queue-text">Wpatrywanie się w pustkę</span><span class="loading-dots"></span><br>
-        <button onclick="cancelSearch()" style="background:#881100; color:#fff; padding:8px 15px; margin-top:15px; width: auto;">[ ODEJDŹ OD OGNIA ]</button>
+        <span id="queue-text"></span><span class="loading-dots"></span><br>
+        <button onclick="cancelSearch()" style="background:#881100; color:#fff; padding:8px 15px; margin-top:15px; width: auto;" data-i18n="btn_cancel_search">[ ODEJDŹ OD OGNIA ]</button>
     </div>
 
     <hr style="border-color:#b35900; border-style:solid; margin: 30px 0; opacity: 0.5;">
 
-    <h3>Prywatne Ognisko</h3>
-    <button onclick="createRoom()">[ ROZPAL WŁASNE OGNISKO ]</button>
+    <h3 data-i18n="lobby_h3_2">Prywatne Ognisko</h3>
+    <button onclick="createRoom()" data-i18n="btn_create_room">[ ROZPAL WŁASNE OGNISKO ]</button>
     <div id="host-info" class="hidden alert" style="margin: 10px 0; text-align: center;">
-        Sygnał Twojego Aelwyd: <strong id="room-id" style="font-size: 1.8em; color: #ffaa00; display: block; margin: 10px 0; font-family: 'Cinzel', serif;"></strong>Czekanie na przybycie wędrowca...
+        <span data-i18n="host_signal">Sygnał Twojego Aelwyd:</span> <strong id="room-id" style="font-size: 1.8em; color: #ffaa00; display: block; margin: 10px 0; font-family: 'Cinzel', serif;"></strong><span data-i18n="host_waiting">Czekanie na przybycie wędrowca...</span>
     </div>
     <br><br>
     <div class="input-group">
-        <input type="text" id="join-id" placeholder="Wpisz sygnał ogniska znajomego...">
-        <button onclick="joinRoom()">[ USIĄDŹ PRZY OGNIU ]</button>
+        <input type="text" id="join-id" data-i18n-placeholder="placeholder_join" placeholder="Wpisz sygnał ogniska znajomego...">
+        <button onclick="joinRoom()" data-i18n="btn_join_room">[ USIĄDŹ PRZY OGNIU ]</button>
     </div>
-   <a href="https://ko-fi.com/pogromca" target="_blank" class="donate-subtle">~ dorzuć drwa do ognia (wesprzyj serwer) ~</a>
+   <a href="https://ko-fi.com/pogromca" target="_blank" class="donate-subtle" data-i18n="donate_link">~ dorzuć drwa do ognia (wesprzyj serwer) ~</a>
 </div>
 
 <div id="countdown-panel" class="panel hidden" style="text-align: center;">
-    <h2>WĘDROWIEC PRZYBYŁ</h2>
-    <p>Ogień płonie. Próba rozpocznie się za:</p>
+    <h2 data-i18n="countdown_h2">WĘDROWIEC PRZYBYŁ</h2>
+    <p data-i18n="countdown_p">Ogień płonie. Próba rozpocznie się za:</p>
     <div id="start-timer" style="font-size: 4em; color: #ff6600; font-family: 'Cinzel', serif; text-shadow: 0 0 20px #ff6600;">5</div>
 </div>
 
 <div id="game-panel" class="panel hidden">
     <div class="flex-row">
-        <h3 id="role-title">FAZA: ???</h3>
-        <div class="timer">CZAS: <span id="round-timer">120</span>s</div>
+        <h3 id="role-title"></h3>
+        <div class="timer"><span data-i18n="timer_label">CZAS:</span> <span id="round-timer">120</span>s</div>
     </div>
 
     <div id="action-area">
-        <p id="question-text" style="font-size: 1.1em; color: #ffcc66; font-style: italic;">Wybierz kielich:</p>
+        <p id="question-text" style="font-size: 1.1em; color: #ffcc66; font-style: italic;"></p>
         <div id="cup-options"></div>
 
-        <p style="margin-top: 20px;">Twój prawdziwy cel (Zapisz myśli na pergaminie):</p>
-        <input type="text" id="reason-input" placeholder="Wpisz powód swojego wyboru...">
+        <p style="margin-top: 20px;" data-i18n="game_reason_label">Twój prawdziwy cel (Zapisz myśli na pergaminie):</p>
+        <input type="text" id="reason-input" data-i18n-placeholder="placeholder_reason" placeholder="Wpisz powód swojego wyboru...">
 
         <div style="margin-top: 20px;">
-            <button id="submit-btn" onclick="submitAction()">[ ZŁÓŻ PERGAMIN W OFIERZE ]</button>
-            <div id="op-status" style="color: #aa8866; margin-top: 10px; font-style: italic;">Nieznajomy jeszcze waha się w mroku...</div>
+            <button id="submit-btn" onclick="submitAction()" data-i18n="btn_submit">[ ZŁÓŻ PERGAMIN W OFIERZE ]</button>
+            <div id="op-status" style="color: #aa8866; margin-top: 10px; font-style: italic;" data-i18n="op_status_waiting">Nieznajomy jeszcze waha się w mroku...</div>
         </div>
     </div>
 </div>
 
 <div id="vote-panel" class="panel hidden">
     <div class="flex-row">
-        <h3>FAZA: SĄD OGNISKA</h3>
-        <div class="timer">CZAS: <span id="chat-timer">180</span>s</div>
+        <h3 data-i18n="vote_h3">FAZA: SĄD OGNISKA</h3>
+        <div class="timer"><span data-i18n="timer_label">CZAS:</span> <span id="chat-timer">180</span>s</div>
     </div>
     
     <div id="reveal-area" class="alert"></div>
 
-    <h4>Szepty przy ognisku (Czat)</h4>
+    <h4 data-i18n="chat_h4">Szepty przy ognisku (Czat)</h4>
     <div id="chat-history"></div>
     <div class="input-group">
-        <input type="text" id="chat-input" placeholder="Przemów do nieznajomego przed wydaniem sądu...">
-        <button onclick="sendChat()">[ PRZEMÓW ]</button>
+        <input type="text" id="chat-input" data-i18n-placeholder="placeholder_chat" placeholder="Przemów do nieznajomego przed wydaniem sądu...">
+        <button onclick="sendChat()" data-i18n="btn_chat">[ PRZEMÓW ]</button>
     </div>
 
     <div id="voting-area" style="margin-top: 30px; border-top: 1px solid #b35900; padding-top: 20px;">
-        <p style="color: #ffcc66; font-size: 1.1em;"><strong>Wydaj Sąd:</strong> Czy sens Waszych pergaminów jest ze sobą zgodny? (Zgodność dusz daje błogosławieństwo ogniska)</p>
-        <button id="vote-yes" onclick="submitVote(true)" style="background: linear-gradient(180deg, #006622 0%, #003311 100%); border-color: #00aa33;">[ TAK, NASZE MYŚLI SĄ JEDNOCZASOWE ]</button>
-        <button id="vote-no" onclick="submitVote(false)">[ NIE, KIEROWAŁ NAMI FAŁSZ ]</button>
-        <div id="vote-wait" class="hidden" style="margin-top:10px; color:#ffaa00; font-weight:bold; font-style: italic;">Oczekiwanie na sąd nieznajomego...</div>
+        <p style="color: #ffcc66; font-size: 1.1em;" data-i18n="vote_desc"><strong>Wydaj Sąd:</strong> Czy sens Waszych pergaminów jest ze sobą zgodny? (Zgodność dusz daje błogosławieństwo ogniska)</p>
+        <button id="vote-yes" onclick="submitVote(true)" style="background: linear-gradient(180deg, #006622 0%, #003311 100%); border-color: #00aa33;" data-i18n="btn_vote_yes">[ TAK, NASZE MYŚLI SĄ JEDNOCZASOWE ]</button>
+        <button id="vote-no" onclick="submitVote(false)" data-i18n="btn_vote_no">[ NIE, KIEROWAŁ NAMI FAŁSZ ]</button>
+        <div id="vote-wait" class="hidden" style="margin-top:10px; color:#ffaa00; font-weight:bold; font-style: italic;" data-i18n="vote_wait">Oczekiwanie na sąd nieznajomego...</div>
     </div>
 </div>
 
 <script>
+    // --- SŁOWNIK JĘZYKOWY (i18n) ---
+    const dict = {
+        pl: {
+            page_title: "Aelwyd.space - Ognisko na krańcu wszechświata",
+            lore_text: "\"Wędrowcze, siądź przy ogniu. W bezmiarze kosmosu tylko to ognisko daje ciepło.<br>Jednak by przetrwać, musimy sprawdzić Twoje intencje w Próbie Kielichów...\"",
+            status_extinguished: "[ OGNISKO WYGASZONE ]",
+            status_ready: "[ OGNISKO GOTOWE DO ROZPALENIA ]",
+            server_spark: "Stan Iskry:",
+            server_loading: "ROZPALANIE OGNISKA (nasłuchiwanie serwera, do 60s)...",
+            server_online: "PŁONIE JASNO (Serwer aktywny)",
+            server_offline1: "ZGUBIONA (Serwer nie odpowiada. Przeładuj układ)",
+            server_offline2: "MARTWA CISZA (Błąd połączenia, upewnij się, że ognisko działa)",
+            lobby_h3_1: "Otwarty Kosmos (Dobieranie)",
+            lobby_p_1: "Wypatruj statków na horyzoncie. System dobierze Ci przeciwnika.",
+            rank_1_badge: "[ ISKRA ]", rank_1_desc: "Zagubieni wędrowcy i nowicjusze",
+            rank_2_badge: "[ PŁOMIEŃ ]", rank_2_desc: "Poszukiwacze prawdy",
+            rank_3_badge: "[ OGNISKO ]", rank_3_desc: "Strażnicy tajemnic",
+            rank_4_badge: "[ GWIAZDA ]", rank_4_desc: "Bezwzględni mistrzowie Próby",
+            rank_name_1: "Iskra", rank_name_2: "Płomień", rank_name_3: "Ognisko", rank_name_4: "Gwiazda",
+            btn_cancel_search: "[ ODEJDŹ OD OGNIA ]",
+            lobby_h3_2: "Prywatne Ognisko",
+            btn_create_room: "[ ROZPAL WŁASNE OGNISKO ]",
+            host_signal: "Sygnał Twojego Aelwyd:",
+            host_waiting: "Czekanie na przybycie wędrowca...",
+            placeholder_join: "Wpisz sygnał ogniska znajomego...",
+            btn_join_room: "[ USIĄDŹ PRZY OGNIU ]",
+            donate_link: "~ dorzuć drwa do ognia (wesprzyj serwer) ~",
+            countdown_h2: "WĘDROWIEC PRZYBYŁ",
+            countdown_p: "Ogień płonie. Próba rozpocznie się za:",
+            timer_label: "CZAS:",
+            game_reason_label: "Twój prawdziwy cel (Zapisz myśli na pergaminie):",
+            placeholder_reason: "Wpisz powód swojego wyboru...",
+            btn_submit: "[ ZŁÓŻ PERGAMIN W OFIERZE ]",
+            btn_submitted: "[ DECYZJA ZAPISANA W GWIAZDACH ]",
+            op_status_waiting: "Nieznajomy jeszcze waha się w mroku...",
+            op_status_done: "Nieznajomy złożył swój pergamin w ofierze.",
+            vote_h3: "FAZA: SĄD OGNISKA",
+            chat_h4: "Szepty przy ognisku (Czat)",
+            placeholder_chat: "Przemów do nieznajomego przed wydaniem sądu...",
+            btn_chat: "[ PRZEMÓW ]",
+            vote_desc: "<strong>Wydaj Sąd:</strong> Czy sens Waszych pergaminów jest ze sobą zgodny? (Zgodność dusz daje błogosławieństwo ogniska)",
+            btn_vote_yes: "[ TAK, NASZE MYŚLI SĄ JEDNOCZASOWE ]",
+            btn_vote_no: "[ NIE, KIEROWAŁ NAMI FAŁSZ ]",
+            vote_wait: "Oczekiwanie na sąd nieznajomego...",
+            search_queue: "Wypatrywanie wędrowców (Poziom: {rank})",
+            search_found: "Wędrowiec dostrzeżony! Nawiązywanie połączenia...",
+            search_empty: "Pustka milczy. Rozpalam ognisko, oczekiwanie...",
+            search_approaching: "Ktoś zbliża się do światła! Przygotowywanie miejsca...",
+            alert_no_code: "Musisz podać sygnał (kod)!",
+            alert_kick_timeout: "Ogień przygasł. Czas minął!",
+            alert_kick_dc: "Połączenie zerwane. Wędrowiec pochłonięty przez mgłę kosmosu.",
+            alert_kick_idle: "Zostałeś odepchnięty od ogniska za brak aktywności.",
+            game_title_p: "RUNDA {r}/5 | GOSPODARZ",
+            game_title_d: "RUNDA {r}/5 | WĘDROWIEC",
+            game_q_p: "Który z pucharów napełnisz Zimnem Pustki, ryzykując życie Wędrowca?",
+            game_q_d: "Wskaż puchar, z którego zaczerpniesz. Jeden to życie, drugi to Pustka.",
+            cup_mine: "Puchar Bliżej Twego Serca",
+            cup_yours: "Puchar Bliżej Nieznajomego",
+            alert_no_cup: "Musisz dokonać wyboru, wędrowcze.",
+            alert_no_reason: "Twój pergamin nie może być pusty. Napisz swoje intencje.",
+            res_survived: "OGRZEWANY BLASKIEM OGNISKA (+1)",
+            res_died: "POCHŁONIĘTY PRZEZ PUSTKĘ",
+            res_title: "EFEKT PRÓBY",
+            res_cup_poison: "Naczynie z Pustką:",
+            res_cup_drunk: "Wypito z:",
+            res_scroll_host: "Pergamin Gospodarza:",
+            res_scroll_guest: "Pergamin Wędrowca:",
+            chat_you: "Ty",
+            chat_stranger: "Nieznajomy",
+            chat_spirit: "DUCH OGNISKA",
+            chat_spirit_win: "Wasze dusze mówią jednym głosem. Pijący otrzymuje błogosławieństwo!",
+            chat_spirit_lose: "Brak harmonii. Dusze pozostają chłodne.",
+            vote_next_phase: "Sąd dobiegł końca. Ognisko zmieni formę za",
+            status_shared: "WSPÓLNE OGNISKO",
+            status_my_lives: "TWOJE ŻYCIA",
+            status_op_lives: "ŻYCIA NIEZNAJOMEGO",
+            end_title: "Świt na Aelwyd",
+            end_my_ess: "Twoje ocalałe esencje:",
+            end_op_ess: "Esencje nieznajomego:",
+            end_win: "ZACHOWAŁEŚ CIEPŁO (ZWYCIĘSTWO)",
+            end_lose: "POCHŁONĘŁA CIĘ PUSTKA (PORAŻKA)",
+            end_draw: "REMIS - OBAJ ODESZLIŚCIE W MROKU",
+            error_msg: "Tragedia:"
+        },
+        en: {
+            page_title: "Aelwyd.space - Bonfire at the edge of the universe",
+            lore_text: "\"Traveler, sit by the fire. In the vastness of space, only this bonfire provides warmth.<br>But to survive, we must test your intentions in the Trial of Chalices...\"",
+            status_extinguished: "[ FIRE EXTINGUISHED ]",
+            status_ready: "[ BONFIRE READY TO BE LIT ]",
+            server_spark: "Spark Status:",
+            server_loading: "IGNITING THE FIRE (listening to server, up to 60s)...",
+            server_online: "BURNS BRIGHTLY (Server active)",
+            server_offline1: "LOST (Server not responding. Reload the system)",
+            server_offline2: "DEAD SILENCE (Connection error, ensure the fire is burning)",
+            lobby_h3_1: "Open Space (Matchmaking)",
+            lobby_p_1: "Look for ships on the horizon. The system will find an opponent.",
+            rank_1_badge: "[ SPARK ]", rank_1_desc: "Lost travelers and novices",
+            rank_2_badge: "[ FLAME ]", rank_2_desc: "Seekers of truth",
+            rank_3_badge: "[ BONFIRE ]", rank_3_desc: "Keepers of secrets",
+            rank_4_badge: "[ STAR ]", rank_4_desc: "Ruthless masters of the Trial",
+            rank_name_1: "Spark", rank_name_2: "Flame", rank_name_3: "Bonfire", rank_name_4: "Star",
+            btn_cancel_search: "[ STEP AWAY FROM THE FIRE ]",
+            lobby_h3_2: "Private Bonfire",
+            btn_create_room: "[ LIGHT YOUR OWN FIRE ]",
+            host_signal: "Your Aelwyd Signal:",
+            host_waiting: "Waiting for a traveler to arrive...",
+            placeholder_join: "Enter a friend's bonfire signal...",
+            btn_join_room: "[ SIT BY THE FIRE ]",
+            donate_link: "~ throw wood into the fire (support the server) ~",
+            countdown_h2: "TRAVELER HAS ARRIVED",
+            countdown_p: "The fire burns. The trial begins in:",
+            timer_label: "TIME:",
+            game_reason_label: "Your true goal (Write your thoughts on the parchment):",
+            placeholder_reason: "Enter the reason for your choice...",
+            btn_submit: "[ OFFER THE PARCHMENT ]",
+            btn_submitted: "[ DECISION WRITTEN IN THE STARS ]",
+            op_status_waiting: "The stranger still hesitates in the dark...",
+            op_status_done: "The stranger has offered their parchment.",
+            vote_h3: "PHASE: JUDGMENT OF THE FIRE",
+            chat_h4: "Whispers by the fire (Chat)",
+            placeholder_chat: "Speak to the stranger before passing judgment...",
+            btn_chat: "[ SPEAK ]",
+            vote_desc: "<strong>Pass Judgment:</strong> Are the meanings of your parchments in agreement? (Harmony of souls grants the fire's blessing)",
+            btn_vote_yes: "[ YES, OUR THOUGHTS ARE ONE ]",
+            btn_vote_no: "[ NO, WE WERE GUIDED BY FALSEHOOD ]",
+            vote_wait: "Waiting for the stranger's judgment...",
+            search_queue: "Looking for travelers (Level: {rank})",
+            search_found: "Traveler spotted! Establishing connection...",
+            search_empty: "The void is silent. Lighting a bonfire, waiting...",
+            search_approaching: "Someone approaches the light! Preparing a seat...",
+            alert_no_code: "You must provide a signal (code)!",
+            alert_kick_timeout: "The fire faded. Time is up!",
+            alert_kick_dc: "Connection broken. The traveler was consumed by the cosmic fog.",
+            alert_kick_idle: "You were pushed away from the fire for inactivity.",
+            game_title_p: "ROUND {r}/5 | HOST",
+            game_title_d: "ROUND {r}/5 | TRAVELER",
+            game_q_p: "Which chalice will you fill with the Cold of the Void, risking the Traveler's life?",
+            game_q_d: "Choose the chalice to drink from. One is life, the other is the Void.",
+            cup_mine: "Chalice Closer to Your Heart",
+            cup_yours: "Chalice Closer to the Stranger",
+            alert_no_cup: "You must make a choice, traveler.",
+            alert_no_reason: "Your parchment cannot be empty. Write your intentions.",
+            res_survived: "WARMED BY THE FIRE'S GLOW (+1)",
+            res_died: "CONSUMED BY THE VOID",
+            res_title: "TRIAL RESULT",
+            res_cup_poison: "Vessel with the Void:",
+            res_cup_drunk: "Drank from:",
+            res_scroll_host: "Host's Parchment:",
+            res_scroll_guest: "Traveler's Parchment:",
+            chat_you: "You",
+            chat_stranger: "Stranger",
+            chat_spirit: "SPIRIT OF THE FIRE",
+            chat_spirit_win: "Your souls speak with one voice. The drinker receives a blessing!",
+            chat_spirit_lose: "Lack of harmony. The souls remain cold.",
+            vote_next_phase: "Judgment is complete. The fire shifts form in",
+            status_shared: "SHARED BONFIRE",
+            status_my_lives: "YOUR LIVES",
+            status_op_lives: "STRANGER'S LIVES",
+            end_title: "Dawn on Aelwyd",
+            end_my_ess: "Your surviving essences:",
+            end_op_ess: "Stranger's essences:",
+            end_win: "YOU KEPT THE WARMTH (VICTORY)",
+            end_lose: "THE VOID CONSUMED YOU (DEFEAT)",
+            end_draw: "DRAW - BOTH LEFT IN THE DARK",
+            error_msg: "Tragedy:"
+        }
+    };
+
+    // Detekcja języka
+    const userLang = navigator.language || navigator.userLanguage;
+    const lang = userLang.startsWith('pl') ? 'pl' : 'en';
+
+    function t(key, params = {}) {
+        let str = dict[lang][key] || key;
+        for (let p in params) str = str.replace(`{${p}}`, params[p]);
+        return str;
+    }
+
+    // Tłumaczenie statycznego HTML po załadowaniu
+    window.addEventListener('DOMContentLoaded', () => {
+        document.title = t('page_title');
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            el.innerHTML = t(key);
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-i18n-placeholder');
+            el.placeholder = t(key);
+        });
+        ui.status.innerText = t('status_ready');
+    });
+
     // --- KONFIGURACJA TWOJEGO SERWERA RENDER / RAILWAY ---
     const PEER_CONFIG = {
-        host: 'stinky-baka-render-server.onrender.com', // <-- TUTAJ WPISZ SWÓJ ADRES Z RENDERA/RAILWAY (bez https://)
+        host: 'stinky-baka-render-server.onrender.com',
         port: 443,
         path: '/myapp',
         secure: true
@@ -269,8 +461,6 @@
         queueStatus: document.getElementById('queue-status'), queueText: document.getElementById('queue-text')
     };
 
-    ui.status.innerText = "[ OGNISKO GOTOWE DO ROZPALENIA ]";
-
     // --- MATCHMAKING Z PREFIXAMI ---
     let isMatchmaking = false;
 
@@ -278,8 +468,7 @@
         ui.disconnectMsg.classList.add('hidden');
         ui.queueStatus.classList.remove('hidden');
         
-        const rankNames = {1: "Iskra", 2: "Płomień", 3: "Ognisko", 4: "Gwiazda"};
-        ui.queueText.innerText = `Wypatrywanie wędrowców (Poziom: ${rankNames[rank]})`;
+        ui.queueText.innerText = t('search_queue', {rank: t(`rank_name_${rank}`)});
         
         let queueId = `aelwyd_v1_rank_${rank}`;
 
@@ -300,7 +489,7 @@
 
             tempConn.on('open', () => {
                 clearTimeout(queueTimeout);
-                ui.queueText.innerText = `Wędrowiec dostrzeżony! Nawiązywanie połączenia...`;
+                ui.queueText.innerText = t('search_found');
 
                 tempConn.on('data', (msg) => {
                     if(msg.type === 'MATCH_FOUND') {
@@ -323,12 +512,12 @@
 
     function becomeQueueHost(queueId) {
         if(!isMatchmaking) return;
-        ui.queueText.innerText = `Pustka milczy. Rozpalam ognisko, oczekiwanie...`;
+        ui.queueText.innerText = t('search_empty');
         
         mmPeer = new Peer(queueId, PEER_CONFIG);
         
         mmPeer.on('connection', (tempConn) => {
-            ui.queueText.innerText = `Ktoś zbliża się do światła! Przygotowywanie miejsca...`;
+            ui.queueText.innerText = t('search_approaching');
             
             tempConn.on('open', () => {
                 let secretRoomId = 'match_' + Math.floor(Math.random() * 999999);
@@ -396,7 +585,7 @@
     function joinRoom() {
         ui.disconnectMsg.classList.add('hidden');
         let pin = document.getElementById('join-id').value.trim();
-        if(!pin) return alert("Musisz podać sygnał (kod)!");
+        if(!pin) return alert(t('alert_no_code'));
         joinPrivateMatch(pin);
     }
 
@@ -412,11 +601,11 @@
         conn.on('data', (msg) => {
             if(msg.type === 'ACTION') {
                 state.opAction = msg.data;
-                ui.opStatus.innerText = "Nieznajomy złożył swój pergamin w ofierze.";
+                ui.opStatus.innerText = t('op_status_done');
                 ui.opStatus.style.color = "#ff9900";
                 checkBothSubmitted();
             }
-            else if(msg.type === 'CHAT') appendChat("Nieznajomy", msg.data, "msg-op");
+            else if(msg.type === 'CHAT') appendChat(t('chat_stranger'), msg.data, "msg-op");
             else if(msg.type === 'VOTE') { state.opVote = msg.data; checkVotes(); }
             else if(msg.type === 'NEXT_ROUND') { state.round++; start5SecCountdown(); }
             else if(msg.type === 'END_GAME') endGame();
@@ -425,13 +614,13 @@
 
         conn.on('close', () => {
             if(!ui.lobby.classList.contains('hidden')) return;
-            handleKick("Połączenie zerwane. Wędrowiec pochłonięty przez mgłę kosmosu.");
+            handleKick(t('alert_kick_dc'));
         });
     }
 
     function kickPlayer(reason) {
         if(conn && conn.open) {
-            conn.send({ type: 'KICK', data: "Zostałeś odepchnięty od ogniska za brak aktywności." });
+            conn.send({ type: 'KICK', data: t('alert_kick_idle') });
             setTimeout(() => conn.close(), 500);
         }
         handleKick(reason);
@@ -440,9 +629,9 @@
     function handleKick(reason) {
         clearInterval(timerInterval); clearInterval(chatTimerInterval); hideAll();
         ui.lobby.classList.remove('hidden');
-        ui.disconnectMsg.innerText = `Tragedia: ${reason}`;
+        ui.disconnectMsg.innerText = `${t('error_msg')} ${reason}`;
         ui.disconnectMsg.classList.remove('hidden');
-        ui.status.innerText = "[ OGNISKO WYGASZONE ]";
+        ui.status.innerText = t('status_extinguished');
         state.myScore = 0; state.opScore = 0; state.round = 1;
     }
 
@@ -453,10 +642,10 @@
 
     function start5SecCountdown() {
         hideAll(); ui.countdown.classList.remove('hidden');
-        let t = 5; ui.startTimer.innerText = t;
+        let t_sec = 5; ui.startTimer.innerText = t_sec;
         let iv = setInterval(() => {
-            t--; ui.startTimer.innerText = t;
-            if(t <= 0) { clearInterval(iv); startPlayingPhase(); }
+            t_sec--; ui.startTimer.innerText = t_sec;
+            if(t_sec <= 0) { clearInterval(iv); startPlayingPhase(); }
         }, 1000);
     }
 
@@ -468,25 +657,25 @@
 
         state.myAction = null; state.opAction = null; state.myVote = null; state.opVote = null;
         ui.reasonInput.value = ''; ui.reasonInput.disabled = false; selectedCup = null;
-        ui.submitBtn.disabled = false; ui.submitBtn.innerText = "[ ZŁÓŻ PERGAMIN W OFIERZE ]";
-        ui.opStatus.innerText = "Nieznajomy jeszcze waha się w mroku..."; ui.opStatus.style.color = "#aa8866";
+        ui.submitBtn.disabled = false; ui.submitBtn.innerText = t('btn_submit');
+        ui.opStatus.innerText = t('op_status_waiting'); ui.opStatus.style.color = "#aa8866";
         ui.voteYes.classList.remove('hidden'); ui.voteNo.classList.remove('hidden');
         ui.voteWait.classList.add('hidden'); 
 
         if(state.myRole === 'poisoner') {
-            ui.roleTitle.innerText = `RUNDA ${state.round}/5 | GOSPODARZ`;
-            document.getElementById('question-text').innerText = "Który z pucharów napełnisz Zimnem Pustki, ryzykując życie Wędrowca?";
+            ui.roleTitle.innerText = t('game_title_p', {r: state.round});
+            document.getElementById('question-text').innerText = t('game_q_p');
         } else {
-            ui.roleTitle.innerText = `RUNDA ${state.round}/5 | WĘDROWIEC`;
-            document.getElementById('question-text').innerText = "Wskaż puchar, z którego zaczerpniesz. Jeden to życie, drugi to Pustka.";
+            ui.roleTitle.innerText = t('game_title_d', {r: state.round});
+            document.getElementById('question-text').innerText = t('game_q_d');
         }
 
         let mySideId = isHost ? 'host_side' : 'guest_side';
         let opSideId = isHost ? 'guest_side' : 'host_side';
 
         ui.cupOptions.innerHTML = `
-            <div class="cup-option" id="cup-${mySideId}" onclick="selectCup('${mySideId}')">Puchar Bliżej Twego Serca</div>
-            <div class="cup-option" id="cup-${opSideId}" onclick="selectCup('${opSideId}')">Puchar Bliżej Nieznajomego</div>
+            <div class="cup-option" id="cup-${mySideId}" onclick="selectCup('${mySideId}')">${t('cup_mine')}</div>
+            <div class="cup-option" id="cup-${opSideId}" onclick="selectCup('${opSideId}')">${t('cup_yours')}</div>
         `;
 
         timeLeft = 120; ui.roundTimer.innerText = timeLeft;
@@ -497,7 +686,7 @@
             if(timeLeft <= 0) {
                 clearInterval(timerInterval);
                 if(!state.myAction) {
-                    if(!selectedCup || !ui.reasonInput.value.trim()) kickPlayer("Ogień przygasł. Czas minął!");
+                    if(!selectedCup || !ui.reasonInput.value.trim()) kickPlayer(t('alert_kick_timeout'));
                     else submitAction();
                 }
             }
@@ -513,12 +702,12 @@
     }
 
     function submitAction() {
-        if(!selectedCup) return alert("Musisz dokonać wyboru, wędrowcze.");
+        if(!selectedCup) return alert(t('alert_no_cup'));
         let reason = ui.reasonInput.value.trim();
-        if(!reason) return alert("Twój pergamin nie może być pusty. Napisz swoje intencje.");
+        if(!reason) return alert(t('alert_no_reason'));
         
         state.myAction = { cup: selectedCup, reason: reason };
-        ui.submitBtn.disabled = true; ui.submitBtn.innerText = "[ DECYZJA ZAPISANA W GWIAZDACH ]";
+        ui.submitBtn.disabled = true; ui.submitBtn.innerText = t('btn_submitted');
         ui.reasonInput.disabled = true;
 
         conn.send({ type: 'ACTION', data: state.myAction });
@@ -544,13 +733,13 @@
         if(survived && state.myRole === 'drinker') state.myScore++;
         else if(survived && state.myRole === 'poisoner') state.opScore++;
 
-        let resHtml = `<h3>EFEKT PRÓBY: ${survived ? '<span style="color:#ffcc00; text-shadow: 0 0 10px #ff9900;">OGRZEWANY BLASKIEM OGNISKA (+1)</span>' : '<span style="color:#660000; text-shadow: 0 0 10px #ff0000;">POCHŁONIĘTY PRZEZ PUSTKĘ</span>'}</h3>`;
-        resHtml += `<p>Naczynie z Pustką: <strong>${getLocalCupName(pAction.cup)}</strong><br>Wypito z: <strong>${getLocalCupName(dAction.cup)}</strong></p><hr style="border:1px solid #552200;">`;
-        resHtml += `<p style="color:#ffaa00;"><strong>Pergamin Gospodarza:</strong> "${pAction.reason}"</p>`;
-        resHtml += `<p style="color:#ffcc66;"><strong>Pergamin Wędrowca:</strong> "${dAction.reason}"</p>`;
+        let resHtml = `<h3>${t('res_title')}: ${survived ? `<span style="color:#ffcc00; text-shadow: 0 0 10px #ff9900;">${t('res_survived')}</span>` : `<span style="color:#660000; text-shadow: 0 0 10px #ff0000;">${t('res_died')}</span>`}</h3>`;
+        resHtml += `<p>${t('res_cup_poison')} <strong>${getLocalCupName(pAction.cup)}</strong><br>${t('res_cup_drunk')} <strong>${getLocalCupName(dAction.cup)}</strong></p><hr style="border:1px solid #552200;">`;
+        resHtml += `<p style="color:#ffaa00;"><strong>${t('res_scroll_host')}</strong> "${pAction.reason}"</p>`;
+        resHtml += `<p style="color:#ffcc66;"><strong>${t('res_scroll_guest')}</strong> "${dAction.reason}"</p>`;
 
         ui.revealArea.innerHTML = resHtml;
-        updateStatus(); ui.voteWait.innerText = "Oczekiwanie na sąd nieznajomego...";
+        updateStatus(); ui.voteWait.innerText = t('vote_wait');
         
         chatTimeLeft = 180; ui.chatTimer.innerText = chatTimeLeft;
         clearInterval(chatTimerInterval);
@@ -565,13 +754,13 @@
     }
 
     function getLocalCupName(cupId) { 
-        return cupId === (isHost ? 'host_side' : 'guest_side') ? "Puchar Bliżej Ciebie" : "Puchar Bliżej Nieznajomego";
+        return cupId === (isHost ? 'host_side' : 'guest_side') ? t('cup_mine') : t('cup_yours');
     }
 
     function sendChat() {
         let msg = ui.chatInput.value.trim();
         if(!msg) return;
-        appendChat("Ty", msg, "msg-me");
+        appendChat(t('chat_you'), msg, "msg-me");
         conn.send({ type: 'CHAT', data: msg });
         ui.chatInput.value = '';
     }
@@ -596,15 +785,15 @@
             clearInterval(chatTimerInterval); ui.chatTimer.innerText = "0";
             
             if(state.myVote === true && state.opVote === true) {
-                appendChat("DUCH OGNISKA", "Wasze dusze mówią jednym głosem. Pijący otrzymuje błogosławieństwo!", "msg-sys");
+                appendChat(t('chat_spirit'), t('chat_spirit_win'), "msg-sys");
                 if(state.myRole === 'drinker') state.myScore++;
                 else state.opScore++;
-            } else appendChat("DUCH OGNISKA", "Brak harmonii. Dusze pozostają chłodne.", "msg-sys");
+            } else appendChat(t('chat_spirit'), t('chat_spirit_lose'), "msg-sys");
 
             updateStatus();
 
             let waitTime = 10;
-            ui.voteWait.innerHTML = `Sąd dobiegł końca. Ognisko zmieni formę za <strong id="next-phase-timer" style="color:#ffaa00;">${waitTime}</strong>s...`;
+            ui.voteWait.innerHTML = `${t('vote_next_phase')} <strong id="next-phase-timer" style="color:#ffaa00;">${waitTime}</strong>s...`;
             
             let waitIv = setInterval(() => {
                 waitTime--; let el = document.getElementById('next-phase-timer');
@@ -623,16 +812,16 @@
     }
 
     function updateStatus() { 
-        ui.status.innerText = `[ WSPÓLNE OGNISKO ] TWOJE ŻYCIA: ${state.myScore} | ŻYCIA NIEZNAJOMEGO: ${state.opScore}`; 
+        ui.status.innerText = `[ ${t('status_shared')} ] ${t('status_my_lives')}: ${state.myScore} | ${t('status_op_lives')}: ${state.opScore}`; 
     }
 
     function endGame() {
         hideAll(); ui.lobby.classList.remove('hidden');
-        let resHtml = `<h2>Świt na Aelwyd</h2><p>Twoje ocalałe esencje: ${state.myScore}</p><p>Esencje nieznajomego: ${state.opScore}</p>`;
+        let resHtml = `<h2>${t('end_title')}</h2><p>${t('end_my_ess')} ${state.myScore}</p><p>${t('end_op_ess')} ${state.opScore}</p>`;
         
-        if(state.myScore > state.opScore) resHtml += "<h3 style='color:#ffaa00; text-shadow: 0 0 15px #ff9900;'>ZACHOWAŁEŚ CIEPŁO (ZWYCIĘSTWO)</h3>";
-        else if(state.myScore < state.opScore) resHtml += "<h3 style='color:#aa0000; text-shadow: 0 0 10px #ff0000;'>POCHŁONĘŁA CIĘ PUSTKA (PORAŻKA)</h3>";
-        else resHtml += "<h3 style='color:#888888;'>REMIS - OBAJ ODESZLIŚCIE W MROKU</h3>";
+        if(state.myScore > state.opScore) resHtml += `<h3 style='color:#ffaa00; text-shadow: 0 0 15px #ff9900;'>${t('end_win')}</h3>`;
+        else if(state.myScore < state.opScore) resHtml += `<h3 style='color:#aa0000; text-shadow: 0 0 10px #ff0000;'>${t('end_lose')}</h3>`;
+        else resHtml += `<h3 style='color:#888888;'>${t('end_draw')}</h3>`;
 
         ui.disconnectMsg.innerHTML = resHtml;
         ui.disconnectMsg.classList.remove('hidden', 'error');
@@ -641,19 +830,23 @@
 
     // --- FUNKCJA SPRAWDZAJĄCA STATUS SERWERA ---
     function checkServerStatus() {
+        const msgSpan = document.getElementById('server-msg');
+        const dotsSpan = document.getElementById('server-dots');
         const statusDiv = document.getElementById('server-status');
         
         const pingPeer = new Peer(PEER_CONFIG);
         
         const timeout = setTimeout(() => {
-            statusDiv.innerHTML = 'Stan Iskry: <strong style="color:#ff3300;">ZGUBIONA (Serwer nie odpowiada. Przeładuj układ)</strong>';
+            msgSpan.innerHTML = `<strong style="color:#ff3300;">${t('server_offline1')}</strong>`;
+            dotsSpan.style.display = 'none';
             statusDiv.style.borderLeftColor = '#ff3300';
             pingPeer.destroy();
         }, 60000);
 
         pingPeer.on('open', () => {
             clearTimeout(timeout);
-            statusDiv.innerHTML = 'Stan Iskry: <strong style="color:#ffaa00;">PŁONIE JASNO (Serwer aktywny)</strong>';
+            msgSpan.innerHTML = `<strong style="color:#ffaa00;">${t('server_online')}</strong>`;
+            dotsSpan.style.display = 'none';
             statusDiv.style.borderLeftColor = '#ffaa00';
             pingPeer.destroy(); 
         });
@@ -661,7 +854,8 @@
         pingPeer.on('error', (err) => {
             if(err.type === 'network' || err.type === 'server-error') {
                 clearTimeout(timeout);
-                statusDiv.innerHTML = 'Stan Iskry: <strong style="color:#ff3300;">MARTWA TISZA (Błąd połączenia, upewnij się, że ognisko działa)</strong>';
+                msgSpan.innerHTML = `<strong style="color:#ff3300;">${t('server_offline2')}</strong>`;
+                dotsSpan.style.display = 'none';
                 statusDiv.style.borderLeftColor = '#ff3300';
             }
         });
