@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Aelwyd: Gra w Wieży</title>
+<title>Aelwyd: Twierdza Odrzuconych</title>
 <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 <style>
     * { box-sizing: border-box; }
     
     .donate-subtle {
         font-size: 0.8em;
-        color: #4a4a5a; 
+        color: #7a6b5d; 
         text-decoration: none;
         display: block;
         text-align: right;
@@ -19,53 +19,49 @@
     }
     
     .donate-subtle:hover { 
-        color: #ff0055; 
-        text-shadow: 0 0 5px #ff0055;
+        color: #d4af37; 
+        text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
     }
 
     body {
-        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-        background: #0a0a0f; /* Ciemny, zimny mur */
-        color: #d0d0d5; 
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #1a1a1c; /* Ciemny, ciepły szary (kamień) */
+        color: #e0d8c8; /* Złamana biel/pergamin */
         max-width: 800px;
         margin: 20px auto;
         padding: 20px;
-        border: 2px solid #333;
-        border-radius: 10px;
+        border: 2px solid #3a3a3c;
+        border-radius: 8px;
         min-height: 95vh;
-        box-shadow: inset 0 0 80px rgba(0, 255, 204, 0.05);
+        box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.5);
     }
 
     h1, h2, h3, h4 { 
-        border-bottom: 2px solid #ff0055; 
+        border-bottom: 2px solid #8b0000; /* Głęboka, królewska czerwień */
         padding-bottom: 10px; 
         margin-top: 0; 
-        color: #fff;
+        color: #d4af37; /* Złoto kominka */
         text-transform: uppercase;
         letter-spacing: 1px;
-    }
-
-    h1 {
-        color: #00ffcc;
-        text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
-        border-bottom-color: #00ffcc;
+        font-weight: 600;
     }
 
     .lore-text {
         font-style: italic;
-        color: #888;
-        background: #111;
-        padding: 15px;
-        border-left: 4px solid #ff0055;
+        color: #b0a898;
+        background: rgba(20, 20, 22, 0.8);
+        padding: 15px 20px;
+        border-left: 4px solid #d4af37;
         margin-bottom: 25px;
         line-height: 1.6;
+        border-radius: 0 4px 4px 0;
     }
 
     input[type="text"], input[type="text"]:disabled {
-        background: #151520;
+        background: #232325;
         color: #fff;
-        border: 1px solid #444;
-        border-bottom: 2px solid #00ffcc;
+        border: 1px solid #4a4a4c;
+        border-bottom: 2px solid #d4af37;
         padding: 12px;
         width: 100%;
         font-family: inherit;
@@ -73,12 +69,12 @@
         outline: none;
         transition: 0.3s;
     }
-    input[type="text"]:focus { background: #1a1a2a; border-bottom-color: #ff0055; }
+    input[type="text"]:focus { background: #2a2a2c; border-bottom-color: #8b0000; }
 
     button {
-        background: #1a1a2a;
-        color: #00ffcc;
-        border: 1px solid #00ffcc;
+        background: #232325;
+        color: #d4af37;
+        border: 1px solid #d4af37;
         padding: 12px 15px;
         margin: 10px 5px 10px 0;
         font-family: inherit;
@@ -87,16 +83,17 @@
         cursor: pointer;
         transition: 0.3s;
         border-radius: 4px;
+        letter-spacing: 1px;
     }
-    button:hover { background: #00ffcc; color: #000; box-shadow: 0 0 15px rgba(0, 255, 204, 0.4); }
-    button:disabled { background: #222; color: #555; border-color: #333; cursor: not-allowed; box-shadow: none; }
+    button:hover { background: #d4af37; color: #1a1a1c; box-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+    button:disabled { background: #2a2a2c; color: #5a5a5c; border-color: #3a3a3c; cursor: not-allowed; box-shadow: none; }
 
     .hidden { display: none !important; }
-    .panel { margin-top: 20px; padding: 20px; border: 1px solid #222; background: #0f0f15; border-radius: 8px; }
-    #status { font-size: 0.9em; color: #555; margin-bottom: 20px; word-wrap: break-word; font-family: monospace; }
+    .panel { margin-top: 20px; padding: 20px; border: 1px solid #3a3a3c; background: #1f1f21; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+    #status { font-size: 0.9em; color: #8a8a8c; margin-bottom: 20px; word-wrap: break-word; font-family: monospace; }
     
-    .alert { background: #151520; padding: 15px; border-left: 5px solid #00ffcc; margin-bottom: 20px; word-wrap: break-word; border-radius: 0 5px 5px 0; }
-    .error { border-left-color: #ff0055; color: #ff3366; }
+    .alert { background: #232325; padding: 15px; border-left: 5px solid #d4af37; margin-bottom: 20px; word-wrap: break-word; border-radius: 0 4px 4px 0; }
+    .error { border-left-color: #8b0000; color: #ff6b6b; }
 
     .flex-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
 
@@ -104,37 +101,37 @@
     .input-group input { flex-grow: 1; margin: 0; }
     .input-group button { margin: 0; flex-shrink: 0; white-space: nowrap; }
 
-    .timer { font-size: 1.5em; font-weight: bold; color: #ff0055; }
+    .timer { font-size: 1.5em; font-weight: bold; color: #d4af37; }
 
-    #chat-history { height: 160px; overflow-y: scroll; border: 1px solid #333; background: #0a0a0f; padding: 10px; margin-bottom: 10px; word-wrap: break-word; border-radius: 4px; }
+    #chat-history { height: 160px; overflow-y: scroll; border: 1px solid #3a3a3c; background: #1a1a1c; padding: 10px; margin-bottom: 10px; word-wrap: break-word; border-radius: 4px; }
     #chat-history p { margin: 5px 0; font-size: 0.95em; }
-    .msg-me { color: #00ffcc; }
-    .msg-op { color: #ff9900; }
-    .msg-sys { color: #ff0055; font-weight: bold; text-transform: uppercase; }
+    .msg-me { color: #d4af37; }
+    .msg-op { color: #b0a898; }
+    .msg-sys { color: #8b0000; font-weight: bold; }
 
     .cup-option {
         display: inline-block;
-        border: 2px dashed #444;
+        border: 2px dashed #4a4a4c;
         padding: 15px;
         margin: 10px 10px 10px 0;
         cursor: pointer;
         transition: 0.2s;
         text-align: center;
-        background: #111;
-        border-radius: 8px;
-        color: #aaa;
+        background: #232325;
+        border-radius: 6px;
+        color: #b0a898;
     }
-    .cup-option.selected { background: #ff0055; border-style: solid; border-color: #ff0055; color: #fff; font-weight: bold; box-shadow: 0 0 15px rgba(255, 0, 85, 0.4); }
+    .cup-option.selected { background: #8b0000; border-style: solid; border-color: #8b0000; color: #fff; font-weight: bold; box-shadow: 0 0 15px rgba(139, 0, 0, 0.4); }
     
-    .rank-btn { width: 100%; text-align: left; margin-bottom: 8px; background: transparent; color: #aaa; border-color: #444; }
-    .rank-btn:hover { background: #333; color: #00ffcc; border-color: #00ffcc; }
+    .rank-btn { width: 100%; text-align: left; margin-bottom: 8px; background: transparent; color: #b0a898; border-color: #4a4a4c; }
+    .rank-btn:hover { background: #3a3a3c; color: #d4af37; border-color: #d4af37; }
 
     .loading-dots:after { content: '.'; animation: dots 1.5s steps(5, end) infinite; }
     @keyframes dots { 0%, 20% { content: '.'; } 40% { content: '..'; } 60%, 100% { content: '...'; } }
 
     @media (max-width: 600px) {
         body { margin: 10px; padding: 15px; }
-        h1 { font-size: 1.4em; }
+        h1 { font-size: 1.3em; }
         h3 { font-size: 1.1em; }
         .flex-row { flex-direction: column; align-items: flex-start; }
         .flex-row .timer { align-self: flex-end; margin-top: -35px; }
@@ -149,51 +146,51 @@
 </head>
 <body>
 
-<h1>AELWYD: KRYJÓWKA W WIEŻY</h1>
+<h1>AELWYD: TWIERDZA ODRZUCONYCH</h1>
 <div class="lore-text">
-    „Aelwyd” to nasza meta. Zimne, walijskie ruiny zamku, gdzie nie ma dorosłych i zasięgu na krechę. Siedzimy przy ognisku z palet i gramy w „Zgniłego Shota”. Zasady są proste: dwa wyblakłe, plastikowe kubki. Jeden ma wodę, drugi obrzydliwą miksturę zebraną z resztek energetyków i taniej wódy. Jeden nalewa i blefuje, drugi wybiera. Kto wymięka psychicznie, pije syf.
+    Zewnątrz to tylko walijskie ruiny bite przez deszcz. Świat nas nie chciał, więc zbudowaliśmy własne królestwo. W środku jest surowo, ale bezpiecznie – grube dywany, stare fotele i wiecznie płonące Aelwyd (palenisko). Zasady są proste: lojalność, prawda i opieka nad twierdzą. Dziś stajesz do <strong>Próby Soli i Miodu</strong>. W jednym z rzeźbionych kubków jest słodki napar, w drugim gorzka woda. Wybierając, udowadniasz, czy potrafisz czytać w myślach swojego brata.
 </div>
 
-<div id="status">[ OFFLINE ]</div>
+<div id="status">[ KRÓLESTWO CZEKA NA SYGNAŁ ]</div>
 
-<div id="server-status" class="alert" style="border-left-color: #ff9900;">
-    Połączenie z Ekipą: <span style="color:#ff9900;">WYZWANIE SERWERA (do 60s)...</span><span class="loading-dots"></span>
+<div id="server-status" class="alert" style="border-left-color: #d4af37;">
+    Strażnicy Twierdzy: <span style="color:#d4af37;">WYBUDZANIE SERWERA (do 60s)...</span><span class="loading-dots"></span>
 </div>
 
 <div id="lobby-panel" class="panel">
     <div id="disconnect-msg" class="alert error hidden"></div>
 
-    <h3>> SZUKAJ ZIOMKA NA DZIEDZIŃCU</h3>
-    <p>Wybierz, z kim chcesz zagrać, system znajdzie kogoś w ruinach.</p>
-    <button class="rank-btn" onclick="searchRank(1)">[ POZIOM 1 ] Świeżaki z miasta</button>
-    <button class="rank-btn" onclick="searchRank(2)">[ POZIOM 2 ] Stali bywalcy zamku</button>
-    <button class="rank-btn" onclick="searchRank(3)">[ POZIOM 3 ] Nocni manipulatorzy</button>
-    <button class="rank-btn" onclick="searchRank(4)">[ POZIOM 4 ] Legendy Aelwyd</button>
+    <h3>> POSZUKAJ BRATA W KOMNATACH</h3>
+    <p>Wybierz kogoś, kto odpowie na wezwanie. Kim jesteś w naszej hierarchii?</p>
+    <button class="rank-btn" onclick="searchRank(1)">[ 1 ] Świeża Krew (Nowo przybyły)</button>
+    <button class="rank-btn" onclick="searchRank(2)">[ 2 ] Strażnik Zrujnowanych Murów</button>
+    <button class="rank-btn" onclick="searchRank(3)">[ 3 ] Powiernik Tajemnic Zamku</button>
+    <button class="rank-btn" onclick="searchRank(4)">[ 4 ] Członek Rady Ogniska (Założyciel)</button>
 
-    <div id="queue-status" class="alert hidden" style="color:#00ffcc; margin-top:10px;">
-        <span id="queue-text">Węszenie po lochach</span><span class="loading-dots"></span><br>
-        <button onclick="cancelSearch()" style="background:#ff0055; color:#fff; border-color:#ff0055; padding:5px; margin-top:10px;">[ OLEJ TO ]</button>
+    <div id="queue-status" class="alert hidden" style="color:#d4af37; margin-top:10px;">
+        <span id="queue-text">Przemierzam korytarze</span><span class="loading-dots"></span><br>
+        <button onclick="cancelSearch()" style="background:#8b0000; color:#fff; border-color:#8b0000; padding:5px; margin-top:10px;">[ WRÓĆ DO OGNISKA ]</button>
     </div>
 
-    <hr style="border-color:#333; border-style:solid; margin: 25px 0;">
+    <hr style="border-color:#3a3a3c; border-style:solid; margin: 25px 0;">
 
-    <h3>> ZAMKNIĘTA IMPREZA</h3>
-    <button onclick="createRoom()">[ STWÓRZ WŁASNY KĄT ]</button>
+    <h3>> ZAMKNIĘTA KOMNATA</h3>
+    <button onclick="createRoom()">[ ZAREZERWUJ FOTEL PRZY KOMINKU ]</button>
     <div id="host-info" class="hidden alert" style="margin: 10px 0;">
-        Kod do twojej kanapy: <strong id="room-id" style="font-size: 1.5em; color: #ff0055;"></strong><br>Wyślij to komuś.
+        Znak przejścia do komnaty: <strong id="room-id" style="font-size: 1.5em; color: #d4af37;"></strong><br>Przekaż go bratu, z którym chcesz zagrać.
     </div>
     <br><br>
     <div class="input-group">
-        <input type="text" id="join-id" placeholder="Wpisz kod od ziomka...">
-        <button onclick="joinRoom()">[ WBIJAM ]</button>
+        <input type="text" id="join-id" placeholder="Wpisz otrzymany znak przejścia...">
+        <button onclick="joinRoom()">[ ZASIĄDŹ ]</button>
     </div>
-   <a href="https://ko-fi.com/pogromca" target="_blank" class="donate-subtle">>> dorzuć się na puszki i serwer</a>
+   <a href="https://ko-fi.com/pogromca" target="_blank" class="donate-subtle">>> wesprzyj utrzymanie Twierdzy</a>
 </div>
 
 <div id="countdown-panel" class="panel hidden" style="text-align: center;">
-    <h2 style="color: #00ffcc;">ZIOMEK WBIŁ!</h2>
-    <p>Odłóżcie telefony. Gramy za:</p>
-    <div id="start-timer" style="font-size: 3em; color: #ff0055;">5</div>
+    <h2 style="color: #d4af37;">BRAT ZASIADŁ NAPRZECIWKO!</h2>
+    <p>Spojrzenia się krzyżują. Próba zaczyna się za:</p>
+    <div id="start-timer" style="font-size: 3em; color: #8b0000;">5</div>
 </div>
 
 <div id="game-panel" class="panel hidden">
@@ -203,39 +200,39 @@
     </div>
 
     <div id="action-area">
-        <p id="question-text" style="font-size: 1.1em; color: #fff;">Wybierz kubek:</p>
+        <p id="question-text" style="font-size: 1.1em; color: #e0d8c8;">Wybierz kubek:</p>
         <div id="cup-options"></div>
 
-        <p style="color: #aaa;">Jaka jest twoja rozkmina? (Zapisz to w notatniku, potem mu pokażesz):</p>
-        <input type="text" id="reason-input" placeholder="Wpisz swój blef / dedukcję...">
+        <p style="color: #b0a898;">Dlaczego tak decydujesz? Zapisz swoje myśli w dzienniku:</p>
+        <input type="text" id="reason-input" placeholder="Wpisz swoje intencje / dedukcję...">
 
         <div style="margin-top: 15px;">
-            <button id="submit-btn" onclick="submitAction()">[ ZABLOKUJ TELEFON I ZATWIERDŹ ]</button>
-            <div id="op-status" style="color: #555; margin-top: 10px; font-weight: bold;">[ ] Przeciwnik coś stuka na ekranie...</div>
+            <button id="submit-btn" onclick="submitAction()">[ ZAMKNIJ DZIENNIK I ZATWIERDŹ ]</button>
+            <div id="op-status" style="color: #5a5a5c; margin-top: 10px; font-weight: bold;">[ ] Przeciwnik spisuje swoje myśli...</div>
         </div>
     </div>
 </div>
 
 <div id="vote-panel" class="panel hidden">
     <div class="flex-row">
-        <h3>> KARTY NA STÓŁ</h3>
+        <h3>> MOMENT PRAWDY</h3>
         <div class="timer">CZAS: <span id="chat-timer">180</span>s</div>
     </div>
     
     <div id="reveal-area" class="alert"></div>
 
-    <h4>> GADKA PRZY OGNISKU</h4>
+    <h4>> SZEPTY PRZY OGNIU</h4>
     <div id="chat-history"></div>
     <div class="input-group">
-        <input type="text" id="chat-input" placeholder="Napisz mu coś...">
-        <button onclick="sendChat()">[ WYŚLIJ ]</button>
+        <input type="text" id="chat-input" placeholder="Przemów do brata...">
+        <button onclick="sendChat()">[ POWIEDZ ]</button>
     </div>
 
     <div id="voting-area" style="margin-top: 20px;">
-        <p><strong>Decyzja: Czy wasze rozkminy z notatników się pokrywają?</strong></p>
-        <button id="vote-yes" onclick="submitVote(true)" style="background: #00ffcc; color:#000;">[ TAK, CZYTAM W NIM JAK W KSIĄŻCE ]</button>
-        <button id="vote-no" onclick="submitVote(false)" style="background: #ff0055; color:#fff; border-color: #ff0055;">[ NIE, TOTALNIE INNA FAZA ]</button>
-        <div id="vote-wait" class="hidden" style="margin-top:10px; color:#ff9900; font-weight:bold;">Czekam aż drugi kliknie...</div>
+        <p><strong>Decyzja: Czy wasze intencje z dzienników były spójne?</strong></p>
+        <button id="vote-yes" onclick="submitVote(true)" style="background: #d4af37; color:#1a1a1c;">[ TAK, MAMY SILNĄ WIĘŹ ]</button>
+        <button id="vote-no" onclick="submitVote(false)" style="background: #8b0000; color:#fff; border-color: #8b0000;">[ NIE, NIE ZROZUMIELIŚMY SIĘ ]</button>
+        <div id="vote-wait" class="hidden" style="margin-top:10px; color:#d4af37; font-weight:bold;">Oczekiwanie na słowo drugiego brata...</div>
     </div>
 </div>
 
@@ -279,14 +276,14 @@
         queueStatus: document.getElementById('queue-status'), queueText: document.getElementById('queue-text')
     };
 
-    ui.status.innerText = "[ CZEKAM NA PODŁĄCZENIE DO SIECI ]";
+    ui.status.innerText = "[ BRAMY TWIERDZY SĄ OTWARTE ]";
 
     let isMatchmaking = false; 
 
     function searchRank(rank) {
         ui.disconnectMsg.classList.add('hidden');
         ui.queueStatus.classList.remove('hidden');
-        ui.queueText.innerText = `Szukam kogoś na poziomie ${rank}...`;
+        ui.queueText.innerText = `Szukam brata na poziomie ${rank}...`;
         
         let queueId = `trucizna_v1_rank_${rank}`;
 
@@ -307,7 +304,7 @@
 
             tempConn.on('open', () => {
                 clearTimeout(queueTimeout);
-                ui.queueText.innerText = `Mamy go! Łączę telefony...`;
+                ui.queueText.innerText = `Spotkanie na korytarzu! Nawiązuję więź...`;
 
                 tempConn.on('data', (msg) => {
                     if(msg.type === 'MATCH_FOUND') {
@@ -330,12 +327,12 @@
 
     function becomeQueueHost(queueId) {
         if(!isMatchmaking) return;
-        ui.queueText.innerText = `Nikogo nie ma. Rozkładam palety i czekam...`;
+        ui.queueText.innerText = `Puste korytarze. Zasiadam przy ogniu i czekam...`;
         
         mmPeer = new Peer(queueId, PEER_CONFIG);
         
         mmPeer.on('connection', (tempConn) => {
-            ui.queueText.innerText = `Ktoś wbił do wieży! Ogarniam stół...`;
+            ui.queueText.innerText = `Ktoś nadszedł! Szykujemy komnatę...`;
             
             tempConn.on('open', () => {
                 let secretRoomId = 'match_' + Math.floor(Math.random() * 999999);
@@ -402,7 +399,7 @@
     function joinRoom() {
         ui.disconnectMsg.classList.add('hidden');
         let pin = document.getElementById('join-id').value.trim();
-        if(!pin) return alert("Musisz wpisać kod ziomek!");
+        if(!pin) return alert("Musisz podać znak przejścia!");
         joinPrivateMatch(pin);
     }
 
@@ -418,11 +415,11 @@
         conn.on('data', (msg) => {
             if(msg.type === 'ACTION') {
                 state.opAction = msg.data;
-                ui.opStatus.innerText = "[✓] Przeciwnik schował telefon!";
-                ui.opStatus.style.color = "#00ffcc";
+                ui.opStatus.innerText = "[✓] Brat zamknął swój dziennik.";
+                ui.opStatus.style.color = "#d4af37";
                 checkBothSubmitted();
             }
-            else if(msg.type === 'CHAT') appendChat("Ziomek", msg.data, "msg-op");
+            else if(msg.type === 'CHAT') appendChat("Brat", msg.data, "msg-op");
             else if(msg.type === 'VOTE') { state.opVote = msg.data; checkVotes(); }
             else if(msg.type === 'NEXT_ROUND') { state.round++; start5SecCountdown(); }
             else if(msg.type === 'END_GAME') endGame();
@@ -431,13 +428,13 @@
 
         conn.on('close', () => {
             if(!ui.lobby.classList.contains('hidden')) return;
-            handleKick("Połączenie zerwane. Ziomek stchórzył i uciekł z zamku.");
+            handleKick("Połączenie zerwane. Brat wstał od kominka i opuścił komnatę.");
         });
     }
 
     function kickPlayer(reason) {
         if(conn && conn.open) {
-            conn.send({ type: 'KICK', data: "Zostałeś wykopany z imprezy za zamulanie." });
+            conn.send({ type: 'KICK', data: "Odrzucono cię z komnaty za brak decyzyjności." });
             setTimeout(() => conn.close(), 500);
         }
         handleKick(reason);
@@ -446,9 +443,9 @@
     function handleKick(reason) {
         clearInterval(timerInterval); clearInterval(chatTimerInterval); hideAll();
         ui.lobby.classList.remove('hidden');
-        ui.disconnectMsg.innerText = `> ZONK: ${reason}`;
+        ui.disconnectMsg.innerText = `> ZAKŁÓCENIE PRÓBY: ${reason}`;
         ui.disconnectMsg.classList.remove('hidden');
-        ui.status.innerText = "[ OGNISKO WYGASŁO ]";
+        ui.status.innerText = "[ POWRÓT DO KORYTARZY ]";
         state.myScore = 0; state.opScore = 0; state.round = 1;
     }
 
@@ -474,25 +471,25 @@
 
         state.myAction = null; state.opAction = null; state.myVote = null; state.opVote = null;
         ui.reasonInput.value = ''; ui.reasonInput.disabled = false; selectedCup = null;
-        ui.submitBtn.disabled = false; ui.submitBtn.innerText = "[ ZABLOKUJ EKRAN ]";
-        ui.opStatus.innerText = "[ ] Przeciwnik coś stuka na ekranie..."; ui.opStatus.style.color = "#555";
+        ui.submitBtn.disabled = false; ui.submitBtn.innerText = "[ ZAMKNIJ DZIENNIK ]";
+        ui.opStatus.innerText = "[ ] Przeciwnik spisuje swoje myśli..."; ui.opStatus.style.color = "#5a5a5c";
         ui.voteYes.classList.remove('hidden'); ui.voteNo.classList.remove('hidden');
         ui.voteWait.classList.add('hidden'); 
 
         if(state.myRole === 'poisoner') {
-            ui.roleTitle.innerText = `> RUNDA ${state.round}/5 | TY ROZLEWASZ`;
-            document.getElementById('question-text').innerText = "Do którego plastiku wlewasz Zgniłego Shota?";
+            ui.roleTitle.innerText = `> RUNDA ${state.round}/5 | TY NAZYWASZ WODĘ`;
+            document.getElementById('question-text').innerText = "W którym drewnianym kubku podasz gorzką sól?";
         } else {
-            ui.roleTitle.innerText = `> RUNDA ${state.round}/5 | TY PIJESZ`;
-            document.getElementById('question-text').innerText = "Który kubek bierzesz na klatę?";
+            ui.roleTitle.innerText = `> RUNDA ${state.round}/5 | TY DOKONUJESZ WYBORU`;
+            document.getElementById('question-text').innerText = "Który rzeźbiony kubek wybierasz, licząc na miód?";
         }
 
         let mySideId = isHost ? 'host_side' : 'guest_side';
         let opSideId = isHost ? 'guest_side' : 'host_side';
 
         ui.cupOptions.innerHTML = `
-            <div class="cup-option" id="cup-${mySideId}" onclick="selectCup('${mySideId}')">Niebieski kubek (bliżej Ciebie)</div>
-            <div class="cup-option" id="cup-${opSideId}" onclick="selectCup('${opSideId}')">Czerwony kubek (u niego)</div>
+            <div class="cup-option" id="cup-${mySideId}" onclick="selectCup('${mySideId}')">Drewniany kubek stojący przy Tobie</div>
+            <div class="cup-option" id="cup-${opSideId}" onclick="selectCup('${opSideId}')">Drewniany kubek po stronie brata</div>
         `;
 
         timeLeft = 120; ui.roundTimer.innerText = timeLeft;
@@ -503,7 +500,7 @@
             if(timeLeft <= 0) {
                 clearInterval(timerInterval);
                 if(!state.myAction) {
-                    if(!selectedCup || !ui.reasonInput.value.trim()) kickPlayer("Za długo myślisz, odpadasz z gry.");
+                    if(!selectedCup || !ui.reasonInput.value.trim()) kickPlayer("Zbyt długie wahanie okrywa hańbą. Opuszczasz Próbę.");
                     else submitAction();
                 }
             }
@@ -519,12 +516,12 @@
     }
 
     function submitAction() {
-        if(!selectedCup) return alert("Ziomek, wskaż jakiś kubek!");
+        if(!selectedCup) return alert("Wskaż kubek do Próby!");
         let reason = ui.reasonInput.value.trim();
-        if(!reason) return alert("Napisz co ci siedzi w głowie (notatka)!");
+        if(!reason) return alert("Dziennik nie może być pusty. Zapisz swoje myśli.");
         
         state.myAction = { cup: selectedCup, reason: reason };
-        ui.submitBtn.disabled = true; ui.submitBtn.innerText = "[ CZEKAM NA NIEGO ]";
+        ui.submitBtn.disabled = true; ui.submitBtn.innerText = "[ OCZEKIWANIE NA DECYZJĘ BRATA ]";
         ui.reasonInput.disabled = true;
 
         conn.send({ type: 'ACTION', data: state.myAction });
@@ -550,13 +547,13 @@
         if(survived && state.myRole === 'drinker') state.myScore++;
         else if(survived && state.myRole === 'poisoner') state.opScore++;
 
-        let resHtml = `<h3>EFEKT: ${survived ? '<span style="color:#00ffcc;">OMINĄŁ CIĘ SHOT (+1)</span>' : '<span style="color:#ff0055;">PIJESZ TEN SYF! (Porażka)</span>'}</h3>`;
-        resHtml += `<p>Gdzie był syf: <strong>${getLocalCupName(pAction.cup)}</strong> | Co wypito: <strong>${getLocalCupName(dAction.cup)}</strong></p><hr style="border:1px solid #333;">`;
-        resHtml += `<p><strong>Notatka Rozlewającego:</strong> "${pAction.reason}"</p>`;
-        resHtml += `<p><strong>Notatka Pijącego:</strong> "${dAction.reason}"</p>`;
+        let resHtml = `<h3>WYNIK PRÓBY: ${survived ? '<span style="color:#d4af37;">SŁODKI MIÓD (+1 pkt szacunku)</span>' : '<span style="color:#8b0000;">GORZKA SÓL (Porażka)</span>'}</h3>`;
+        resHtml += `<p>Gdzie podano sól: <strong>${getLocalCupName(pAction.cup)}</strong> | Skąd wypito: <strong>${getLocalCupName(dAction.cup)}</strong></p><hr style="border:1px solid #4a4a4c;">`;
+        resHtml += `<p><strong>Wpis Nalewającego:</strong> "${pAction.reason}"</p>`;
+        resHtml += `<p><strong>Wpis Pijącego:</strong> "${dAction.reason}"</p>`;
 
         ui.revealArea.innerHTML = resHtml;
-        updateStatus(); ui.voteWait.innerText = "Czekam aż drugi kliknie...";
+        updateStatus(); ui.voteWait.innerText = "Oczekiwanie na słowo drugiego brata...";
         
         chatTimeLeft = 180; ui.chatTimer.innerText = chatTimeLeft;
         clearInterval(chatTimerInterval);
@@ -571,7 +568,7 @@
     }
 
     function getLocalCupName(cupId) { 
-        return cupId === (isHost ? 'host_side' : 'guest_side') ? "Niebieski (Twój)" : "Czerwony (Jego)";
+        return cupId === (isHost ? 'host_side' : 'guest_side') ? "Kubek po Twojej stronie" : "Kubek u brata";
     }
 
     function sendChat() {
@@ -602,15 +599,15 @@
             clearInterval(chatTimerInterval); ui.chatTimer.innerText = "0";
             
             if(state.myVote === true && state.opVote === true) {
-                appendChat("EKIPA", "Dobra rozkmina, zgadza się! Bonusowy punkt leci na konto.", "msg-sys");
+                appendChat("ZASADA AELWYD", "Wasze umysły stanowią jedność. Bonusowy punkt szacunku zdobyty.", "msg-sys");
                 if(state.myRole === 'drinker') state.myScore++;
                 else state.opScore++;
-            } else appendChat("EKIPA", "Inne tory myślenia. Nikt tu nikogo nie wyczuł.", "msg-sys");
+            } else appendChat("ZASADA AELWYD", "Nie zrozumieliście się. Brak dodatkowego punktu szacunku.", "msg-sys");
 
             updateStatus();
 
             let waitTime = 10;
-            ui.voteWait.innerHTML = `Lecimy dalej za <strong id="next-phase-timer" style="color:#00ffcc;">${waitTime}</strong>s...`;
+            ui.voteWait.innerHTML = `Przygotowanie do kolejnej Próby za <strong id="next-phase-timer" style="color:#d4af37;">${waitTime}</strong>s...`;
             
             let waitIv = setInterval(() => {
                 waitTime--; let el = document.getElementById('next-phase-timer');
@@ -629,16 +626,16 @@
     }
 
     function updateStatus() { 
-        ui.status.innerText = `[ WIEŻA ON-LINE ] WYNIKI - Ty: ${state.myScore} | Ziomek: ${state.opScore}`; 
+        ui.status.innerText = `[ KOMNATA SPOTKAŃ ] SZACUNEK - Ty: ${state.myScore} | Brat: ${state.opScore}`; 
     }
 
     function endGame() {
         hideAll(); ui.lobby.classList.remove('hidden');
-        let resHtml = `<h2>KONIEC ZABAWY</h2><p>Twój wynik: ${state.myScore}</p><p>Wynik ziomka: ${state.opScore}</p>`;
+        let resHtml = `<h2>PRÓBA ZAKOŃCZONA</h2><p>Zdobyty przez Ciebie szacunek: ${state.myScore}</p><p>Szacunek zdobyty przez brata: ${state.opScore}</p>`;
         
-        if(state.myScore > state.opScore) resHtml += "<h3 style='color:#00ffcc'>WYGRYWASZ, RZĄDZISZ W ZAMKU!</h3>";
-        else if(state.myScore < state.opScore) resHtml += "<h3 style='color:#ff0055'>DOSTAŁEŚ PO TYŁKU, PIJESZ RESZTKĘ SYFU...</h3>";
-        else resHtml += "<h3 style='color:#ff9900'>REMIS. NIJAKIE ZAKOŃCZENIE.</h3>";
+        if(state.myScore > state.opScore) resHtml += "<h3 style='color:#d4af37'>UDOWODNIŁEŚ SWOJĄ WARTOŚĆ DLA TWIERDZY!</h3>";
+        else if(state.myScore < state.opScore) resHtml += "<h3 style='color:#8b0000'>ZAWIODŁEŚ, MUSISZ WZMOCNIĆ SWOJĄ WIĘŹ Z BRAĆMI.</h3>";
+        else resHtml += "<h3 style='color:#b0a898'>JESTEŚCIE RÓWNI W SWOJEJ WIEDZY.</h3>";
 
         ui.disconnectMsg.innerHTML = resHtml;
         ui.disconnectMsg.classList.remove('hidden', 'error');
@@ -650,23 +647,23 @@
         const pingPeer = new Peer(PEER_CONFIG);
         
         const timeout = setTimeout(() => {
-            statusDiv.innerHTML = 'Połączenie z Ekipą: <strong style="color:#ff3366;">MARTWE (Serwer leży. Zrób refresh)</strong>';
-            statusDiv.style.borderLeftColor = '#ff3366';
+            statusDiv.innerHTML = 'Strażnicy Twierdzy: <strong style="color:#ff6b6b;">MILCZĄ (Brak prądu w zamku. Odśwież stronę)</strong>';
+            statusDiv.style.borderLeftColor = '#ff6b6b';
             pingPeer.destroy();
         }, 60000); 
 
         pingPeer.on('open', () => {
             clearTimeout(timeout);
-            statusDiv.innerHTML = 'Połączenie z Ekipą: <strong style="color:#00ffcc;">GIT (Zamek nasłuchuje)</strong>';
-            statusDiv.style.borderLeftColor = '#00ffcc';
+            statusDiv.innerHTML = 'Strażnicy Twierdzy: <strong style="color:#d4af37;">GOTOWI (Serwer aktywny)</strong>';
+            statusDiv.style.borderLeftColor = '#d4af37';
             pingPeer.destroy(); 
         });
         
         pingPeer.on('error', (err) => {
             if(err.type === 'network' || err.type === 'server-error') {
                 clearTimeout(timeout);
-                statusDiv.innerHTML = 'Połączenie z Ekipą: <strong style="color:#ff3366;">MARTWE (Brak prądu w wieży)</strong>';
-                statusDiv.style.borderLeftColor = '#ff3366';
+                statusDiv.innerHTML = 'Strażnicy Twierdzy: <strong style="color:#ff6b6b;">BŁĄD (Mur został przerwany)</strong>';
+                statusDiv.style.borderLeftColor = '#ff6b6b';
             }
         });
     }
